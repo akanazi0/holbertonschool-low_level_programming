@@ -12,8 +12,8 @@
 int main(void)
 {
 	int choice;
-	int A;
-	int B;
+	float A;
+	float B;
 
 	do {
 		printf("Simple Calculator\n");
@@ -37,21 +37,30 @@ int main(void)
 		else
 		{
 			printf("A: ");
-			scanf("%d", &A);
+			scanf("%f", &A);
 			printf("B: ");
-			scanf("%d", &B);
+			scanf("%f", &B);
 
 			switch (choice)
 			{
 			case 1:
-				printf("Result: %d\n", A + B);
+				printf("Result: %g\n", A + B);
 				break;
             case 2:
-                printf("Result: %d\n", A - B);
+                printf("Result: %g\n", A - B);
                 break;
             case 3:
-                printf("Result: %d\n", A * B);
+                printf("Result: %g\n", A * B);
                 break;
+            case 4:
+                if (B == 0)
+                {
+                    printf("Error: division by zero\n");
+                }
+                else
+                {
+                    printf("Result: %g\n", A / B);
+                }
 			}
 		}
 
