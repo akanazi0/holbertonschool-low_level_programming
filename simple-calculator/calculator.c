@@ -46,6 +46,8 @@ int main(void)
 			case 1:
 				printf("Result: %d\n", A + B);
 				break;
+            case 2:
+                printf("Result: %d\n", A - B);
 			}
 		}
 
