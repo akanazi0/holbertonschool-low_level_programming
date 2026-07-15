@@ -11,41 +11,66 @@
  */
 int main(void)
 {
-	int choice;
-	float A;
-	float B;
+    int choice;
+    float A;
+    float B;
+    int c;
 
-	do {
-		printf("Simple Calculator\n");
-		printf("1) Add\n");
-		printf("2) Subtract\n");
-		printf("3) Multiply\n");
-		printf("4) Divide\n");
-		printf("0) Quit\n");
+    do {
+        printf("Simple Calculator\n");
+        printf("1) Add\n");
+        printf("2) Subtract\n");
+        printf("3) Multiply\n");
+        printf("4) Divide\n");
+        printf("0) Quit\n");
 
-		printf("Choice: ");
-		scanf("%d", &choice);
+        printf("Choice: ");
+        
+        if (scanf("%d", &choice) != 1)
+        {
+            printf("Invalid choice\n");
+            while ((c = getchar()) != '\n' && c != EOF);
+            choice = -1; 
+            continue;
+        }
 
-		if (choice == 0)
-		{
-			printf("Bye!\n");
-		}
-		else if (choice < 0 || choice > 4)
-		{
-			printf("Invalid choice\n");
-		}
-		else
-		{
-			printf("A: ");
-			scanf("%f", &A);
-			printf("B: ");
-			scanf("%f", &B);
+        if (choice == 0)
+        {
+            printf("Bye!\n");
+        }
+        else if (choice < 1 || choice > 4)
+        {
+            printf("Invalid choice\n");
+        }
+        else
+        {
+            while (1)
+            {
+                printf("A: ");
+                if (scanf("%f", &A) == 1)
+                {
+                    break;
+                }
+                printf("Invalid number\n");
+                while ((c = getchar()) != '\n' && c != EOF);
+            }
 
-			switch (choice)
-			{
-			case 1:
-				printf("Result: %g\n", A + B);
-				break;
+            while (1)
+            {
+                printf("B: ");
+                if (scanf("%f", &B) == 1)
+                {
+                    break;
+                }
+                printf("Invalid number\n");
+                while ((c = getchar()) != '\n' && c != EOF);
+            }
+
+            switch (choice)
+            {
+            case 1:
+                printf("Result: %g\n", A + B);
+                break;
             case 2:
                 printf("Result: %g\n", A - B);
                 break;
@@ -61,10 +86,11 @@ int main(void)
                 {
                     printf("Result: %g\n", A / B);
                 }
-			}
-		}
+                break;
+            }
+        }
 
-	} while (choice != 0);
+    } while (choice != 0);
 
-	return (0);
+    return (0);
 }
