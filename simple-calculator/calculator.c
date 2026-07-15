@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+/**
+ * main - Entry point for the simple calculator program
+ *
+ * Description: Prints a simple calculator menu and reads the user's
+ * selection. If the user selects 0, it exits with a farewell message.
+ *
+ * Return: Always 0 (Success)
+ */
+int main(void)
+{
+	int choice;
+
+	printf("Simple Calculator\n");
+	printf("1) Add\n");
+	printf("2) Subtract\n");
+	printf("3) Multiply\n");
+	printf("4) Divide\n");
+	printf("0) Quit\n");
+
+	printf("Choice: ");
+	scanf("%d", &choice);
+
+	if (choice == 0)
+	{
+		printf("Bye!\n");
+	}
+
+	return (0);
+}
