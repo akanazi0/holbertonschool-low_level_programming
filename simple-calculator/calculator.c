@@ -12,6 +12,8 @@
 int main(void)
 {
 	int choice;
+	int A;
+	int B;
 
 	do {
 		printf("Simple Calculator\n");
@@ -31,6 +33,20 @@ int main(void)
 		else if (choice < 0 || choice > 4)
 		{
 			printf("Invalid choice\n");
+		}
+		else
+		{
+			printf("A: ");
+			scanf("%d", &A);
+			printf("B: ");
+			scanf("%d", &B);
+
+			switch (choice)
+			{
+			case 1:
+				printf("Result: %d\n", A + B);
+				break;
+			}
 		}
 
 	} while (choice != 0);
