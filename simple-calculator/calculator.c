@@ -48,6 +48,10 @@ int main(void)
 				break;
             case 2:
                 printf("Result: %d\n", A - B);
+                break;
+            case 3:
+                printf("Result: %d\n", A * B);
+                break;
 			}
 		}
 
