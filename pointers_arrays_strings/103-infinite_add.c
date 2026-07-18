@@ -1,6 +1,26 @@
 #include "main.h"
 
 /**
+ * rev_string - Reverses a string
+ * @s: The string to be reversed
+ * @len: The length of the string
+ *
+ * Return: void
+ */
+void rev_string(char *s, int len)
+{
+	int i = 0, j = len - 1;
+	char temp;
+
+	for (; i < j; i++, j--)
+	{
+		temp = s[i];
+		s[i] = s[j];
+		s[j] = temp;
+	}
+}
+
+/**
  * infinite_add - Adds two numbers
  * @n1: First number string
  * @n2: Second number string
@@ -11,22 +31,18 @@
  */
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-	int i = 0, j = 0, k = 0;
-	int len1 = 0, len2 = 0;
-	int sum = 0, carry = 0;
-	char temp;
+	int i = 0, j = 0, k = 0, sum = 0, carry = 0;
 
-	while (n1[len1] != '\0')
-		len1++;
-	while (n2[len2] != '\0')
-		len2++;
+	while (n1[i] != '\0')
+		i++;
+	while (n2[j] != '\0')
+		j++;
 
-	if (len1 + 2 > size_r || len2 + 2 > size_r)
+	if (i + 2 > size_r || j + 2 > size_r)
 		return (0);
 
-	i = len1 - 1;
-	j = len2 - 1;
-
+	i--;
+	j--;
 	while (i >= 0 || j >= 0 || carry != 0)
 	{
 		sum = carry;
@@ -39,18 +55,11 @@ char *infinite_add(char *n1, char *n2, char *r, int size_r)
 		if (k >= size_r - 1)
 			return (0);
 
-		r[k] = (sum % 10) + '0';
-		k++;
+		r[k++] = (sum % 10) + '0';
 		i--;
 		j--;
 	}
 	r[k] = '\0';
-
-	for (i = 0, j = k - 1; i < j; i++, j--)
-	{
-		temp = r[i];
-		r[i] = r[j];
-		r[j] = temp;
-	}
+	rev_string(r, k);
 	return (r);
 }
