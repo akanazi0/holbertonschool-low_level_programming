@@ -1,22 +1,27 @@
 #include "main.h"
 
 /**
- * rev_string - Reverses a string
- * @s: The string to be reversed
- * @len: The length of the string
+ * reverse_buffer - Reverses the character buffer
+ * @s: The buffer string to reverse
  *
  * Return: void
  */
-void rev_string(char *s, int len)
+void reverse_buffer(char *s)
 {
-	int i = 0, j = len - 1;
+	int i = 0, j = 0;
 	char temp;
 
-	for (; i < j; i++, j--)
+	while (s[j] != '\0')
+		j++;
+	j--;
+
+	while (i < j)
 	{
 		temp = s[i];
 		s[i] = s[j];
 		s[j] = temp;
+		i++;
+		j--;
 	}
 }
 
@@ -60,6 +65,6 @@ char *infinite_add(char *n1, char *n2, char *r, int size_r)
 		j--;
 	}
 	r[k] = '\0';
-	rev_string(r, k);
+	reverse_buffer(r);
 	return (r);
 }
