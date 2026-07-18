@@ -16,7 +16,7 @@ int main(void)
 
 	while (sum > 126)
 	{
-		rand_char = (rand() % 94) + 32;
+		rand_char = (rand() % 93) + 33;
 		putchar(rand_char);
 		sum -= rand_char;
 	}
