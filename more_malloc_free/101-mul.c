@@ -108,6 +108,19 @@ int main(int argc, char *argv[])
 	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
 		error_exit();
 
+	if (argv[1][0] == '0' && argv[1][1] == '\0')
+	{
+		_putchar('0');
+		_putchar('\n');
+		return (0);
+	}
+	if (argv[2][0] == '0' && argv[2][1] == '\0')
+	{
+		_putchar('0');
+		_putchar('\n');
+		return (0);
+	}
+
 	multiply(argv[1], argv[2]);
 
 	return (0);
