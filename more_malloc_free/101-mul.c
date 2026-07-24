@@ -76,9 +76,12 @@ int main(int argc, char *argv[])
 	len2 = _strlen(s2);
 	len_result = len1 + len2;
 
-	result = _calloc(len_result, sizeof(int));
+	result = malloc(sizeof(int) * len_result);
 	if (result == NULL)
 		error_exit();
+
+	for (i = 0; i < len_result; i++)
+		result[i] = 0;
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
