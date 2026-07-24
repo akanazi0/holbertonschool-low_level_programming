@@ -105,7 +105,6 @@ void multiply(char *s1, char *s2)
  */
 int main(int argc, char *argv[])
 {
-	char *s1, *s2;
 	int i, is_zero1 = 1, is_zero2 = 1;
 
 	if (argc != 3)
@@ -114,21 +113,18 @@ int main(int argc, char *argv[])
 	if (!is_digit(argv[1]) || !is_digit(argv[2]))
 		error_exit();
 
-	s1 = argv[1];
-	s2 = argv[2];
-
-	for (i = 0; s1[i] != '\0'; i++)
+	for (i = 0; argv[1][i] != '\0'; i++)
 	{
-		if (s1[i] != '0')
+		if (argv[1][i] != '0')
 		{
 			is_zero1 = 0;
 			break;
 		}
 	}
 
-	for (i = 0; s2[i] != '\0'; i++)
+	for (i = 0; argv[2][i] != '\0'; i++)
 	{
-		if (s2[i] != '0')
+		if (argv[2][i] != '0')
 		{
 			is_zero2 = 0;
 			break;
@@ -142,7 +138,7 @@ int main(int argc, char *argv[])
 		return (0);
 	}
 
-	multiply(s1, s2);
+	multiply(argv[1], argv[2]);
 
 	return (0);
 }
