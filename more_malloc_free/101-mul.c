@@ -114,7 +114,6 @@ int main(int argc, char *argv[])
 	s1 = argv[1];
 	s2 = argv[2];
 
-	/* Check if s1 consists of only zeros */
 	for (i = 0; s1[i] != '\0'; i++)
 	{
 		if (s1[i] != '0')
@@ -124,7 +123,6 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	/* Check if s2 consists of only zeros */
 	for (i = 0; s2[i] != '\0'; i++)
 	{
 		if (s2[i] != '0')
@@ -134,7 +132,6 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	/* If either number is zero, print 0 and exit cleanly */
 	if (is_zero1 || is_zero2)
 	{
 		_putchar('0');
