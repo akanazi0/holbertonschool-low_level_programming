@@ -16,7 +16,7 @@ void error_exit(void)
 }
 
 /**
- * _strlen - returns the length of a string.
+ * _strlen - returns length of string.
  * @s: string to measure
  *
  * Return: length of string
@@ -32,7 +32,7 @@ int _strlen(char *s)
 }
 
 /**
- * is_digit - checks if a string contains only digits.
+ * is_digit - checks if string contains only digits.
  * @s: string to check
  *
  * Return: 1 if all digits, 0 otherwise
@@ -52,7 +52,7 @@ int is_digit(char *s)
 }
 
 /**
- * multiply - multiplies two strings of digits and prints the result.
+ * multiply - multiplies two digit strings and prints result.
  * @s1: first number string
  * @s2: second number string
  */
@@ -107,19 +107,6 @@ int main(int argc, char *argv[])
 {
 	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
 		error_exit();
-
-	if (argv[1][0] == '0' && argv[1][1] == '\0')
-	{
-		_putchar('0');
-		_putchar('\n');
-		return (0);
-	}
-	if (argv[2][0] == '0' && argv[2][1] == '\0')
-	{
-		_putchar('0');
-		_putchar('\n');
-		return (0);
-	}
 
 	multiply(argv[1], argv[2]);
 
