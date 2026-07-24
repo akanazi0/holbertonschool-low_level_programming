@@ -106,6 +106,7 @@ void multiply(char *s1, char *s2)
 int main(int argc, char *argv[])
 {
 	char *s1, *s2;
+	int i, is_zero1 = 1, is_zero2 = 1;
 
 	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
 		error_exit();
@@ -113,14 +114,28 @@ int main(int argc, char *argv[])
 	s1 = argv[1];
 	s2 = argv[2];
 
-	/* Skip leading zeros */
-	while (*s1 == '0' && *(s1 + 1) != '\0')
-		s1++;
-	while (*s2 == '0' && *(s2 + 1) != '\0')
-		s2++;
+	/* Check if s1 consists of only zeros */
+	for (i = 0; s1[i] != '\0'; i++)
+	{
+		if (s1[i] != '0')
+		{
+			is_zero1 = 0;
+			break;
+		}
+	}
 
-	/* Handle zero multiplication without allocating memory */
-	if (*s1 == '0' || *s2 == '0')
+	/* Check if s2 consists of only zeros */
+	for (i = 0; s2[i] != '\0'; i++)
+	{
+		if (s2[i] != '0')
+		{
+			is_zero2 = 0;
+			break;
+		}
+	}
+
+	/* If either number is zero, print 0 and exit cleanly */
+	if (is_zero1 || is_zero2)
 	{
 		_putchar('0');
 		_putchar('\n');
