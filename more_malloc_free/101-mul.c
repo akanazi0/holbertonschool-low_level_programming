@@ -105,10 +105,29 @@ void multiply(char *s1, char *s2)
  */
 int main(int argc, char *argv[])
 {
+	char *s1, *s2;
+
 	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
 		error_exit();
 
-	multiply(argv[1], argv[2]);
+	s1 = argv[1];
+	s2 = argv[2];
+
+	/* Skip leading zeros */
+	while (*s1 == '0' && *(s1 + 1) != '\0')
+		s1++;
+	while (*s2 == '0' && *(s2 + 1) != '\0')
+		s2++;
+
+	/* Handle zero multiplication without allocating memory */
+	if (*s1 == '0' || *s2 == '0')
+	{
+		_putchar('0');
+		_putchar('\n');
+		return (0);
+	}
+
+	multiply(s1, s2);
 
 	return (0);
 }
