@@ -108,7 +108,10 @@ int main(int argc, char *argv[])
 	char *s1, *s2;
 	int i, is_zero1 = 1, is_zero2 = 1;
 
-	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
+	if (argc != 3)
+		error_exit();
+
+	if (!is_digit(argv[1]) || !is_digit(argv[2]))
 		error_exit();
 
 	s1 = argv[1];
