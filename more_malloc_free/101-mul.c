@@ -61,7 +61,7 @@ int is_digit(char *s)
 int main(int argc, char *argv[])
 {
 	char *s1, *s2;
-	int len1, len2, len_result, i, j, digit1, digit2, carry, *result, start = 0;
+	int len1, len2, len_res, i, j, digit1, digit2, carry, *res, start = 0;
 
 	if (argc != 3)
 		error_exit();
@@ -74,14 +74,14 @@ int main(int argc, char *argv[])
 
 	len1 = _strlen(s1);
 	len2 = _strlen(s2);
-	len_result = len1 + len2;
+	len_res = len1 + len2;
 
-	result = malloc(sizeof(int) * len_result);
-	if (result == NULL)
+	res = malloc(sizeof(int) * len_res);
+	if (res == NULL)
 		error_exit();
 
-	for (i = 0; i < len_result; i++)
-		result[i] = 0;
+	for (i = 0; i < len_res; i++)
+		res[i] = 0;
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
@@ -90,21 +90,21 @@ int main(int argc, char *argv[])
 		for (j = len2 - 1; j >= 0; j--)
 		{
 			digit2 = s2[j] - '0';
-			carry += result[i + j + 1] + (digit1 * digit2);
-			result[i + j + 1] = carry % 10;
+			carry += res[i + j + 1] + (digit1 * digit2);
+			res[i + j + 1] = carry % 10;
 			carry /= 10;
 		}
 		if (carry > 0)
-			result[i + j + 1] += carry;
+			res[i + j + 1] += carry;
 	}
 
-	while (start < len_result - 1 && result[start] == 0)
+	while (start < len_res - 1 && res[start] == 0)
 		start++;
 
-	for (i = start; i < len_result; i++)
-		_putchar(result[i] + '0');
+	for (i = start; i < len_res; i++)
+		_putchar(res[i] + '0');
 	_putchar('\n');
 
-	free(result);
+	free(res);
 	return (0);
 }
