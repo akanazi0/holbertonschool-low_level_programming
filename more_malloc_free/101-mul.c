@@ -52,25 +52,13 @@ int is_digit(char *s)
 }
 
 /**
- * main - multiplies two positive numbers.
- * @argc: argument count
- * @argv: argument vector
- *
- * Return: 0 on success, exit 98 on failure
+ * multiply - multiplies two strings of digits and prints the result.
+ * @s1: first number string
+ * @s2: second number string
  */
-int main(int argc, char *argv[])
+void multiply(char *s1, char *s2)
 {
-	char *s1, *s2;
 	int len1, len2, len_res, i, j, digit1, digit2, carry, *res, start = 0;
-
-	if (argc != 3)
-		error_exit();
-
-	s1 = argv[1];
-	s2 = argv[2];
-
-	if (!is_digit(s1) || !is_digit(s2))
-		error_exit();
 
 	len1 = _strlen(s1);
 	len2 = _strlen(s2);
@@ -106,5 +94,21 @@ int main(int argc, char *argv[])
 	_putchar('\n');
 
 	free(res);
+}
+
+/**
+ * main - multiplies two positive numbers.
+ * @argc: argument count
+ * @argv: argument vector
+ *
+ * Return: 0 on success, exit 98 on failure
+ */
+int main(int argc, char *argv[])
+{
+	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
+		error_exit();
+
+	multiply(argv[1], argv[2]);
+
 	return (0);
 }
