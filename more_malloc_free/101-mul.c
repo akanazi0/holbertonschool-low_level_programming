@@ -55,14 +55,10 @@ int is_digit(char *s)
  * multiply - multiplies two digit strings and prints result
  * @s1: first number string
  * @s2: second number string
- *
- * Return: 0 on success, 1 on malloc failure
  */
-int multiply(char *s1, char *s2)
+void multiply(char *s1, char *s2)
 {
-	int len1, len2, len_res;
-	int i, j, digit1, digit2, carry, start = 0;
-	int *res;
+	int len1, len2, len_res, i, j, digit1, digit2, carry, *res, start = 0;
 
 	len1 = _strlen(s1);
 	len2 = _strlen(s2);
@@ -70,7 +66,7 @@ int multiply(char *s1, char *s2)
 
 	res = malloc(sizeof(int) * len_res);
 	if (res == NULL)
-		return (1);
+		error_exit();
 
 	for (i = 0; i < len_res; i++)
 		res[i] = 0;
@@ -100,7 +96,6 @@ int multiply(char *s1, char *s2)
 	_putchar('\n');
 
 	free(res);
-	return (0);
 }
 
 /**
@@ -112,6 +107,7 @@ int multiply(char *s1, char *s2)
  */
 int main(int argc, char *argv[])
 {
+	char *s1, *s2;
 	int i, is_zero1 = 1, is_zero2 = 1;
 
 	if (argc != 3)
@@ -120,18 +116,21 @@ int main(int argc, char *argv[])
 	if (!is_digit(argv[1]) || !is_digit(argv[2]))
 		error_exit();
 
-	for (i = 0; argv[1][i] != '\0'; i++)
+	s1 = argv[1];
+	s2 = argv[2];
+
+	for (i = 0; s1[i] != '\0'; i++)
 	{
-		if (argv[1][i] != '0')
+		if (s1[i] != '0')
 		{
 			is_zero1 = 0;
 			break;
 		}
 	}
 
-	for (i = 0; argv[2][i] != '\0'; i++)
+	for (i = 0; s2[i] != '\0'; i++)
 	{
-		if (argv[2][i] != '0')
+		if (s2[i] != '0')
 		{
 			is_zero2 = 0;
 			break;
@@ -145,8 +144,7 @@ int main(int argc, char *argv[])
 		return (0);
 	}
 
-	if (multiply(argv[1], argv[2]) != 0)
-		error_exit();
+	multiply(s1, s2);
 
 	return (0);
 }
