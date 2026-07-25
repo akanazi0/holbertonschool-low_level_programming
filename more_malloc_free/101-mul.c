@@ -60,7 +60,9 @@ int is_digit(char *s)
  */
 int multiply(char *s1, char *s2)
 {
-	int len1, len2, len_res, i, j, digit1, digit2, carry, *res, start = 0;
+	int len1, len2, len_res;
+	int i, j, digit1, digit2, carry, start = 0;
+	int *res;
 
 	len1 = _strlen(s1);
 	len2 = _strlen(s2);
@@ -77,6 +79,7 @@ int multiply(char *s1, char *s2)
 	{
 		digit1 = s1[i] - '0';
 		carry = 0;
+
 		for (j = len2 - 1; j >= 0; j--)
 		{
 			digit2 = s2[j] - '0';
@@ -84,6 +87,7 @@ int multiply(char *s1, char *s2)
 			res[i + j + 1] = carry % 10;
 			carry /= 10;
 		}
+
 		if (carry > 0)
 			res[i + j + 1] += carry;
 	}
@@ -110,7 +114,10 @@ int main(int argc, char *argv[])
 {
 	int i, is_zero1 = 1, is_zero2 = 1;
 
-	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
+	if (argc != 3)
+		error_exit();
+
+	if (!is_digit(argv[1]) || !is_digit(argv[2]))
 		error_exit();
 
 	for (i = 0; argv[1][i] != '\0'; i++)
