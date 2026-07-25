@@ -58,7 +58,9 @@ int is_digit(char *s)
  */
 void multiply(char *s1, char *s2)
 {
-	int len1, len2, len_res, i, j, digit1, digit2, carry, *res, start = 0;
+	int len1, len2, len_res;
+	int i, j, digit1, digit2, carry, start = 0;
+	int *res;
 
 	len1 = _strlen(s1);
 	len2 = _strlen(s2);
@@ -108,7 +110,6 @@ void multiply(char *s1, char *s2)
 int main(int argc, char *argv[])
 {
 	char *s1, *s2;
-	int i, is_zero1 = 1, is_zero2 = 1;
 
 	if (argc != 3)
 		error_exit();
@@ -119,25 +120,14 @@ int main(int argc, char *argv[])
 	s1 = argv[1];
 	s2 = argv[2];
 
-	for (i = 0; s1[i] != '\0'; i++)
-	{
-		if (s1[i] != '0')
-		{
-			is_zero1 = 0;
-			break;
-		}
-	}
+	/* Trim leading zeros using pointer arithmetic */
+	while (*s1 == '0' && *(s1 + 1) != '\0')
+		s1++;
+	while (*s2 == '0' && *(s2 + 1) != '\0')
+		s2++;
 
-	for (i = 0; s2[i] != '\0'; i++)
-	{
-		if (s2[i] != '0')
-		{
-			is_zero2 = 0;
-			break;
-		}
-	}
-
-	if (is_zero1 || is_zero2)
+	/* If either number turns out to be 0 after trimming */
+	if (*s1 == '0' || *s2 == '0')
 	{
 		_putchar('0');
 		_putchar('\n');
