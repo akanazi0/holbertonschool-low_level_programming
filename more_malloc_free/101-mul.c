@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 /**
- * error_exit - prints Error and exits with status 98.
+ * error_exit - prints Error and exits with status 98
  */
 void error_exit(void)
 {
@@ -16,7 +16,7 @@ void error_exit(void)
 }
 
 /**
- * _strlen - returns length of string.
+ * _strlen - returns length of string
  * @s: string to measure
  *
  * Return: length of string
@@ -32,7 +32,7 @@ int _strlen(char *s)
 }
 
 /**
- * is_digit - checks if string contains only digits.
+ * is_digit - checks if string contains only digits
  * @s: string to check
  *
  * Return: 1 if all digits, 0 otherwise
@@ -52,7 +52,7 @@ int is_digit(char *s)
 }
 
 /**
- * multiply - multiplies two digit strings and prints result.
+ * multiply - multiplies two digit strings and prints result
  * @s1: first number string
  * @s2: second number string
  */
@@ -97,7 +97,7 @@ void multiply(char *s1, char *s2)
 }
 
 /**
- * main - multiplies two positive numbers.
+ * main - multiplies two positive numbers
  * @argc: argument count
  * @argv: argument vector
  *
@@ -105,40 +105,29 @@ void multiply(char *s1, char *s2)
  */
 int main(int argc, char *argv[])
 {
-	int i, is_zero1 = 1, is_zero2 = 1;
+	char *s1, *s2;
 
-	if (argc != 3)
+	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
 		error_exit();
 
-	if (!is_digit(argv[1]) || !is_digit(argv[2]))
-		error_exit();
+	s1 = argv[1];
+	s2 = argv[2];
 
-	for (i = 0; argv[1][i] != '\0'; i++)
-	{
-		if (argv[1][i] != '0')
-		{
-			is_zero1 = 0;
-			break;
-		}
-	}
+	/* Trim leading zeros */
+	while (*s1 == '0' && *(s1 + 1) != '\0')
+		s1++;
+	while (*s2 == '0' && *(s2 + 1) != '\0')
+		s2++;
 
-	for (i = 0; argv[2][i] != '\0'; i++)
-	{
-		if (argv[2][i] != '0')
-		{
-			is_zero2 = 0;
-			break;
-		}
-	}
-
-	if (is_zero1 || is_zero2)
+	/* If either number is zero */
+	if (*s1 == '0' || *s2 == '0')
 	{
 		_putchar('0');
 		_putchar('\n');
 		return (0);
 	}
 
-	multiply(argv[1], argv[2]);
+	multiply(s1, s2);
 
 	return (0);
 }
