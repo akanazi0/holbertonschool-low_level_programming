@@ -6,7 +6,7 @@
  */
 void error_exit(void)
 {
-	char *err = "Error\n";
+	char err[] = "Error\n";
 	int i;
 
 	for (i = 0; err[i] != '\0'; i++)
@@ -120,13 +120,11 @@ int main(int argc, char *argv[])
 	s1 = argv[1];
 	s2 = argv[2];
 
-	/* Trim leading zeros using pointer arithmetic */
 	while (*s1 == '0' && *(s1 + 1) != '\0')
 		s1++;
 	while (*s2 == '0' && *(s2 + 1) != '\0')
 		s2++;
 
-	/* If either number turns out to be 0 after trimming */
 	if (*s1 == '0' || *s2 == '0')
 	{
 		_putchar('0');
