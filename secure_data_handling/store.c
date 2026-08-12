@@ -10,9 +10,15 @@ void store_init(store_t *st)
 
 static node_t *node_create(session_t *s)
 {
-    node_t *n = (node_t *)malloc(sizeof(*n));
+    node_t *n;
+
+    if (!s)
+        return NULL;
+
+    n = (node_t *)malloc(sizeof(*n));
     if (!n)
         return NULL;
+
     n->sess = s;
     n->next = NULL;
     return n;
@@ -25,7 +31,7 @@ int store_add(store_t *st, session_t *s)
     if (!s)
         return 0;
 
-    /* 1. إذا كان الـ store غير صالح أو الجلسة بلا ID، ندمّر الجلسة لمنع تسريب الذاكرة */
+    /* 1. حماية ضد المدخلات غير الصالحة وتدمير الجلسة لمنع التسريب */
     if (!st || !s->id) {
         session_destroy(s);
         return 0;
@@ -35,16 +41,16 @@ int store_add(store_t *st, session_t *s)
     cur = st->head;
     while (cur) {
         if (cur->sess && cur->sess->id && strcmp(cur->sess->id, s->id) == 0) {
-            session_destroy(s); /* تنظيف الجلسة المكررة لمنع تسريب الذاكرة */
+            session_destroy(s);
             return 0;
         }
         cur = cur->next;
     }
 
-    /* 3. حجز عقدة جديدة للـ Linked List */
+    /* 3. إنشاء العقدة الجديدة */
     n = node_create(s);
     if (!n) {
-        session_destroy(s); /* تنظيف الجلسة في حال فشل حجز العقدة */
+        session_destroy(s);
         return 0;
     }
 
@@ -87,13 +93,14 @@ int store_delete(store_t *st, const char *id, session_t **out)
             else
                 st->head = cur->next;
 
-            /* إذا طلب المنادي نقل الملكية عبر out، لا ندمر الجلسة */
             if (out) {
                 *out = cur->sess;
             } else {
                 session_destroy(cur->sess);
             }
 
+            cur->sess = NULL;
+            cur->next = NULL;
             free(cur);
             return 1;
         }
@@ -111,14 +118,19 @@ void store_destroy(store_t *st)
     if (!st)
         return;
 
+    /* تصفير head فوراً لضمان إمكانية الاستدعاء المتكرر بأمان */
     cur = st->head;
+    st->head = NULL;
+
     while (cur) {
         next = cur->next;
 
-        session_destroy(cur->sess);
-        free(cur);
+        if (cur->sess) {
+            session_destroy(cur->sess);
+            cur->sess = NULL;
+        }
 
+        free(cur);
         cur = next;
     }
-    st->head = NULL;
 }
