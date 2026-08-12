@@ -4,107 +4,121 @@
 
 void store_init(store_t *st)
 {
-	if (st)
-		st->head = NULL;
+    if (st)
+        st->head = NULL;
 }
 
 static node_t *node_create(session_t *s)
 {
-	node_t *n = (node_t *)malloc(sizeof(*n));
-	if (!n)
-		return NULL;
-	n->sess = s;
-	n->next = NULL;
-	return n;
+    node_t *n = (node_t *)malloc(sizeof(*n));
+    if (!n)
+        return NULL;
+    n->sess = s;
+    n->next = NULL;
+    return n;
 }
 
 int store_add(store_t *st, session_t *s)
 {
-	node_t *n, *cur;
+    node_t *n, *cur;
 
-	if (!st || !s || !s->id)
-		return 0;
+    if (!s)
+        return 0;
 
-	cur = st->head;
-	while (cur) {
-		if (cur->sess && cur->sess->id && strcmp(cur->sess->id, s->id) == 0)
-			return 0;
-		cur = cur->next;
-	}
+    /* 1. إذا كان الـ store غير صالح أو الجلسة بلا ID، ندمّر الجلسة لمنع تسريب الذاكرة */
+    if (!st || !s->id) {
+        session_destroy(s);
+        return 0;
+    }
 
-	n = node_create(s);
-	if (!n) {
-		return 0;
-	}
+    /* 2. التحقق من وجود ID مكرر */
+    cur = st->head;
+    while (cur) {
+        if (cur->sess && cur->sess->id && strcmp(cur->sess->id, s->id) == 0) {
+            session_destroy(s); /* تنظيف الجلسة المكررة لمنع تسريب الذاكرة */
+            return 0;
+        }
+        cur = cur->next;
+    }
 
-	n->next = st->head;
-	st->head = n;
-	return 1;
+    /* 3. حجز عقدة جديدة للـ Linked List */
+    n = node_create(s);
+    if (!n) {
+        session_destroy(s); /* تنظيف الجلسة في حال فشل حجز العقدة */
+        return 0;
+    }
+
+    n->next = st->head;
+    st->head = n;
+    return 1;
 }
 
 session_t *store_get(store_t *st, const char *id)
 {
-	node_t *cur;
+    node_t *cur;
 
-	if (!st || !id)
-		return NULL;
+    if (!st || !id)
+        return NULL;
 
-	cur = st->head;
-	while (cur) {
-		if (cur->sess && cur->sess->id && strcmp(cur->sess->id, id) == 0)
-			return cur->sess;
-		cur = cur->next;
-	}
-	return NULL;
+    cur = st->head;
+    while (cur) {
+        if (cur->sess && cur->sess->id && strcmp(cur->sess->id, id) == 0) {
+            return cur->sess;
+        }
+        cur = cur->next;
+    }
+    return NULL;
 }
 
 int store_delete(store_t *st, const char *id, session_t **out)
 {
-	node_t *cur, *prev;
+    node_t *cur, *prev;
 
-	if (!st || !id)
-		return 0;
+    if (!st || !id)
+        return 0;
 
-	prev = NULL;
-	cur = st->head;
+    prev = NULL;
+    cur = st->head;
 
-	while (cur) {
-		if (cur->sess && cur->sess->id && strcmp(cur->sess->id, id) == 0) {
-			if (prev)
-				prev->next = cur->next;
-			else
-				st->head = cur->next;
+    while (cur) {
+        if (cur->sess && cur->sess->id && strcmp(cur->sess->id, id) == 0) {
+            if (prev)
+                prev->next = cur->next;
+            else
+                st->head = cur->next;
 
-			if (out)
-				*out = cur->sess;
+            /* إذا طلب المنادي نقل الملكية عبر out، لا ندمر الجلسة */
+            if (out) {
+                *out = cur->sess;
+            } else {
+                session_destroy(cur->sess);
+            }
 
-			session_destroy(cur->sess);
-			free(cur);
-			return 1;
-		}
-		prev = cur;
-		cur = cur->next;
-	}
+            free(cur);
+            return 1;
+        }
+        prev = cur;
+        cur = cur->next;
+    }
 
-	return 0;
+    return 0;
 }
 
 void store_destroy(store_t *st)
 {
-	node_t *cur, *next;
+    node_t *cur, *next;
 
-	if (!st)
-		return;
+    if (!st)
+        return;
 
-	cur = st->head;
-	while (cur) {
-		next = cur->next;
+    cur = st->head;
+    while (cur) {
+        next = cur->next;
 
-		session_destroy(cur->sess);
+        session_destroy(cur->sess);
+        free(cur);
 
-		free(cur);
-
-		cur = next;
-	}
-	st->head = NULL;
+        cur = next;
+    }
+    st->head = NULL;
 }
